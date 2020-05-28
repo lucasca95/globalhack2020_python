@@ -7,5 +7,5 @@ python-dotenv
 requests
 # FlaskRESTFul - API
 flask_restful
-# SQLAlchemy ORM
+# SQLAlchemy Flask ORM
 Flask-SQLAlchemy
