@@ -7,7 +7,7 @@ from flask import Flask, session, render_template, request, redirect, url_for, j
 from flask_restful import Api
 
 
-from models import User, UserList
+from models import UserAPI, UserListAPI
 
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
@@ -16,9 +16,11 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY")
 app.config["SESSION_PERMANENT"] = False
 app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+
+
 
 api = Api(app)
-
 api.add_resource(UserList,'/users/')
 api.add_resource(User,'/users/<int:user_id>')
  
@@ -29,6 +31,30 @@ api.add_resource(User,'/users/<int:user_id>')
 def welcome():
     return "SERVER RUNNING"
 ###############################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # ###############################################################

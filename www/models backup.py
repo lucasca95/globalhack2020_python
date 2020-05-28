@@ -1,13 +1,13 @@
 import os
 import datetime
 from flask_restful import reqparse, abort, Resource, fields, marshal_with
-from flask_sqlalchemy import SQLALchemy
-
-from application import app
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 
 # Set up database
-db = SQLALchemy(app)
+engine = create_engine(os.getenv("DATABASE_URL"))
+db = scoped_session(sessionmaker(bind=engine))
 
 parser_user = reqparse.RequestParser()
 parser_user.add_argument('first_name')
@@ -16,7 +16,7 @@ parser_user.add_argument('birthdate')
 parser_user.add_argument('email')
 parser_user.add_argument('password')
 parser_user.add_argument('type')
-parser_user.add_arg
+parser_user.add_argument('rating')
 
 user_fields = {
     'id': fields.Integer,
@@ -28,16 +28,23 @@ user_fields = {
     'type': fields.String,
     'rating': fields.Float
 }
+delete_message = {
+    'message': fields.String
+}
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String)
-    last_name = db.Column(db.String)
-    birthdate = db.Column(db.DateTime)
-    email = db.Column(db.String)
-    password = db.Column(db.String)
-    _type = db.Column(db.String)
-    rating = db.Column(db.Float)
+class UserDao(object):
+    def __init__(self, id=None, first_name=None, last_name=None, birthdate=None, email=None, password=None, _type=None, rating=None):
+        self.id = id
+        self.first_name = first_name
+        self.last_name = last_name
+        self.birthdate = birthdate
+        self.email = email
+        self.password = password
+        self.type = _type
+        self.rating = rating
+
+        # This field will not be sent in the response
+        self.status = 'active'
     
     def findAllUsers():
         users = db.execute('SELECT id, first_name, last_name, birthdate, email, type, rating FROM appuser').fetchall()
@@ -89,35 +96,31 @@ class User(db.Model):
 
         return u
 
-
-
-
-
-class UserAPI(Resource):
+class User(Resource):
     @marshal_with(user_fields)
     def get(self, user_id):
-        return User.findUserById(user_id)
+        return UserDao.findUserById(user_id)
     
     @marshal_with(delete_message)
     def delete(self, user_id):
-        User.deleteUserById(user_id)
+        UserDao.deleteUserById(user_id)
         return {'message': 'User Deleted'}
     
     def put(self, todo_id):
         args = parser_user.parse_args()
         print(f'\n\n{args}\n\n')
-        return "testeando el put"UserDao
+        return "testeando el put"
 
 
-class UserListAPI(Resource):
+class UserList(Resource):
     @marshal_with(user_fields)
     def get(self):
-        return User.findAllUsers()
+        return UserDao.findAllUsers()
 
     @marshal_with(user_fields)
     def post(self):
         args = parser_user.parse_args()
-        u = User(0,
+        u = UserDao(0,
             args['first_name'], 
             args['last_name'], 
             args['birthdate'], 
@@ -126,4 +129,4 @@ class UserListAPI(Resource):
             args['type'],
             args['rating'], 
         )
-        return User.saveUser(u), 200
+        return UserDao.saveUser(u), 200
