@@ -5,3 +5,5 @@ SQLAlchemy
 psycopg2-binary
 python-dotenv
 requests
+# FlaskRESTFul - API
+flask_restful
