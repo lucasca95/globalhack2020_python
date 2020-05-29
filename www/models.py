@@ -18,8 +18,7 @@ class User(Base):
     _type = Column('type', String(1))
     rating = Column('rating', Float)
 
-    def __init__(self, id=0, first_name=None, last_name=None, birthdate=None, email=None, password=None, _type=None, rating=None):
-        self.id = id
+    def __init__(self, first_name=None, last_name=None, birthdate=None, email=None, password=None, _type=None, rating=None):
         self.first_name = first_name
         self.last_name = last_name
         self.birthdate = birthdate
@@ -39,3 +38,5 @@ class User(Base):
            'type': self._type,
            'rating': self.rating
         }
+
+

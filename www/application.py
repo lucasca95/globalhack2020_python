@@ -6,7 +6,6 @@ import os
 from flask_restful import Api
 
 
-
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY")
 
@@ -22,7 +21,6 @@ api.add_resource(UserAPI,'/users/<int:user_id>')
 def welcome():
     return "SERVER RUNNING"
 ###############################################################
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

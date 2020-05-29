@@ -52,9 +52,8 @@ class Database(object):
         session = self.get_session()
         user = session.query(User).filter_by(id = user_id).first()
         session.close()
-        print(f"\n\n{user}\n\n", file=sys.stderr)
         if (user):
-            return user.serialize()
+            return user
         else:
             abort(404, error=f'User with id {user_id} not found')
 
@@ -67,20 +66,26 @@ class Database(object):
             [id of created user]
         """
         session = self.get_session()
-        user = User(
-            first_name=u.first_name,
-            last_name=u.last_name,
-            birthdate = u.birthdate,
-            email = u.email,
-            password = u.password,
-            _type = u._type,
-            rating = u.rating 
-            )
+        user = User(first_name=u['first_name'],last_name=u['last_name'],birthdate = u['birthdate'],
+            email = u['email'],password = u['password'], _type = u['type'],rating = u['rating'])
         session.add(user)
         session.commit()
+        user.serialize()
+        # print(f'\nUser2:\n{user.serialize()}', file=sys.stderr)
         session.close()
-        print(f'\n\n\n{user.serialize()}', file=sys.stderr)     
-        return user.serialize()
+        return user
+
+    def deleteUserById(self, user_id):
+        session = self.get_session()
+
+        user = self.findUserById(user_id)
+        aux = self.findUserById(user_id)
+        session.delete(user)
+        session.commit()
+
+        session.close()
+        return aux
+
 
 class UserListAPI(Resource):
     @marshal_with(user_fields)
@@ -93,16 +98,9 @@ class UserListAPI(Resource):
     def post(self):
         db_api = Database()
         args = parser_user.parse_args()
-        user = User(
-            first_name=args['first_name'],
-            last_name=args['last_name'],
-            birthdate=args['birthdate'],
-            email=args['email'],
-            password=args['password'],
-            _type=args['type'],
-            rating=args['rating']
-            )
-        return db_api.saveUser(user)
+        user = db_api.saveUser(args)
+        # return user.serialize()
+        return user.serialize()
 
 
 class UserAPI(Resource):
@@ -110,4 +108,10 @@ class UserAPI(Resource):
     def get(self, user_id):
         db_api = Database()
         user = db_api.findUserById(user_id)
+        return user.serialize()
+
+    @marshal_with(user_fields)
+    def delete(self, user_id):
+        db_api = Database()
+        user = db_api.deleteUserById(user_id)
         return user
