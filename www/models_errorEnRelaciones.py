@@ -20,9 +20,12 @@ class User(Base):
     rating = Column('rating', Float)
     
     # Relation with Petition
-    
-    # Relation with Review
+    petitions_helped = relationship('Petition', back_populates="helped")
+    petitions_collaborator = relationship('Petition', back_populates="collaborator")
 
+    # Relation with Review
+    reviews = relationship("Review", back_populates="user")
+    
 
 
     def __init__(self, first_name=None, last_name=None, birthdate=None, email=None, password=None, _type=None, rating=None):
@@ -55,9 +58,13 @@ class Petition(Base):
     gift = Column('gift', String(100))
 
     # Relation with User
-    
+    helped_id = Column(Integer, ForeignKey('appuser.id'))
+    helped = relationship("User", back_populates="petitions_helped")
+    collaborator_id = Column(Integer, ForeignKey('appuser.id'))
+    collaborator = relationship("User", back_populates="petitions_collaborator")
+
     # Relation with Review
-    
+    reviews = relationship("Review", back_populates="petition")
 
     def __init__(self, day=None, hour=None, gift=None):
         self.day = day
@@ -81,9 +88,13 @@ class Review(Base):
     rating = Column('rating', Float)
 
     # Relation User
-    
+    user_id = Column(Integer, ForeignKey('appuser.id'))
+    user = relationship("User", back_populates="reviews")
+
     # Relation Petition
-    
+    petition_id = Column(Integer, ForeignKey('petition.id'))
+    petition = relationship("Petition", back_populates="reviews")
+
 
     def __init__(self, comment=None, rating=None, gift=None):
         self.comment = comment
