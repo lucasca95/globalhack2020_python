@@ -1,7 +1,7 @@
 # Hackthon - "[GlobHack 2020](https://www.linkedin.com/events/6661728790860881920/)"
                         \        Bienvenid@         /
                          \                         /
-                          \     Documentación     /
+                          \    Docs. Back-End     /
                            ]    GlobHack2020     [    ,'|
                            ]                     [   /  |
                            ]___               ___[ ,'   |
