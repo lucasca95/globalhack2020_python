@@ -93,6 +93,15 @@ No existe un planeta B, por eso debemos comprometernos con el medio ambiente y p
 
 ***
 
+# Motivación
+La pandemia generada por el coronavirus cuenta con tres particularidades destacables: alta contagiosidad, un 40% de población portadora sana asintomática en zonas de circulación viral y alta letalidad en población mayor de 60 años. Estas características han obligado a las autoridades sanitarias a indicar el aislamiento preventivo estricto de esta población para evitar la propagación de la enfermedad y cuidar a los más vulnerables.
+
+La imposibilidad de ciertas familias de asistirlos y las necesidades cotidianas que obligan a salir del domicilio (abastecimiento de bebidas y alimentos, pago de impuestos y servicios, mantenimiento de recetas médicas, compra y provisión de medicamentos crónicos, etc.) hacen que deban exponerse a un alto riesgo al llevar a cabo tareas habituales cerca, o lejos, de sus hogares.
+
+Es allí donde podemos establecer una red colaborativa de asistencia de población vulnerable a través de población cercana, lo cual llevaría a la puerta de sus casas las necesidades que de otro modo no podrían ser satisfechas.
+
+***
+
 # UX Tips
 
 1. ### Clear call to action
